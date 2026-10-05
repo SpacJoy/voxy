@@ -27,6 +27,8 @@
 
   "voxy.config.general.environmental_fog": "Enable environmental fog",
   "voxy.config.general.environmental_fog.tooltip": "Enables or disables voxy rendering environmental fog",
+  "voxy.config.general.render_fog": "Enable render fog",
+  "voxy.config.general.render_fog.tooltip": "Enables or disables voxy rendering environmental fog",
 
   "voxy.config.general.ssao_mode": "SSAO Mode",
   "voxy.config.general.ssao_mode.tooltip": "The mode used for screenspace ambient occlusion (Auto attempts to pick the best option while reducing performance impact)",
@@ -45,5 +47,7 @@
   "voxy.config.general.fogDensity": "Fog density",
   "voxy.config.general.fogDensity.tooltip": "Density of the fog, higher values make the fog thicker",
   "voxy.config.general.skyFogDistance": "Sky fog distance",
-  "voxy.config.general.skyFogDistance.tooltip": "Distance at which sky fog starts to render in chunks"
+  "voxy.config.general.skyFogDistance.tooltip": "Distance at which sky fog starts to render in chunks",
+  "voxy.config.general.chunkBoundInset": "LoD boundary inset",
+  "voxy.config.general.chunkBoundInset.tooltip": "How far (in blocks) the LoD is allowed to start before the vanilla render distance ends. Too low leaves a ring of void where neither the vanilla renderer nor the LoD draws, too high lets the distant terrain poke through the nearby terrain"
 }

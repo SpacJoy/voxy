@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import me.cortex.voxy.client.core.AbstractRenderPipeline;
 import me.cortex.voxy.client.core.RenderProperties;
+import me.cortex.voxy.client.config.VoxyConfig;
 import me.cortex.voxy.client.core.gl.GlBuffer;
 import me.cortex.voxy.client.core.gl.GlVertexArray;
 import me.cortex.voxy.client.core.gl.shader.AutoBindingShader;
@@ -106,7 +107,12 @@ public class ChunkBoundRenderer {
         long ptr = UploadStream.INSTANCE.upload(this.uniformBuffer, 0, 128);
         long matPtr = ptr; ptr += 4*4*4;
 
-        final float renderDistance = Minecraft.getInstance().options.getEffectiveRenderDistance()*16;//In blocks
+        //Pull the bound back from the vanilla render distance edge. The far envelope of these
+        //section AABBs otherwise reaches past where the vanilla renderer stopped drawing, which
+        //discards the LoD in a band that nothing else covers (a ring of void at the boundary).
+        //See VoxyConfig.chunkBoundInset.
+        final float renderDistance = Math.max(16.0f,
+                Minecraft.getInstance().options.getEffectiveRenderDistance()*16 - VoxyConfig.CONFIG.chunkBoundInset);//In blocks
 
         {//This is recomputed to be in chunk section space not worldsection
 

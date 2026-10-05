@@ -135,6 +135,10 @@ public class VoxyConfigMenu implements ConfigEntryPoint {
                                         SSAO.SSAOMode.class,
                                         Component.translatable("voxy.config.general.ssao_mode"),
                                         ()->CFG.getSSAOMode(), v->CFG.setSSAOMode(v))
+                                        //Default element names are the raw enum constants (AUTO/BASIC/...),
+                                        //route them through the lang file so they translate
+                                        .setNameProvider(v -> Component.translatable(
+                                                "voxy.config.general.ssao_mode." + v.name().toLowerCase(java.util.Locale.ROOT)))
                                         .setImpact(OptionImpact.MEDIUM)//TODO make it on igpus this is high
                                         .setPostChangeFlags(RENDER_RELOAD)
                         ), new Group(
@@ -170,6 +174,13 @@ public class VoxyConfigMenu implements ConfigEntryPoint {
                                         Component.translatable("voxy.config.general.skyFogDistance"),
                                         ()->CFG.skyFogDistance, v->CFG.skyFogDistance=v,
                                         new Range(0, 1024, 1))
+                                        .setImpact(OptionImpact.LOW)
+                                        .setPostChangeFlags(RENDER_RELOAD),
+                                new IntOption(
+                                        "voxy:chunk_bound_inset",
+                                        Component.translatable("voxy.config.general.chunkBoundInset"),
+                                        ()->CFG.chunkBoundInset, v->CFG.chunkBoundInset=v,
+                                        new Range(0, 32, 1))
                                         .setImpact(OptionImpact.LOW)
                                         .setPostChangeFlags(RENDER_RELOAD)
                         )

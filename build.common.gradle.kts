@@ -45,6 +45,10 @@ val stonecutterLoaderName = if (loaderName == "legacyforge") "forge" else loader
 apply(plugin = "dev.kikugie.stonecutter")
 
 repositories {
+    // Local Maven cache (~/.m2/repository). Used to supply artifacts whose upstream host
+    // is unreachable (e.g. GitHub release assets resolved through the ivy "github" repo).
+    mavenLocal()
+
     flatDir {
         dirs("libs")
     }
@@ -91,23 +95,25 @@ repositories {
             url = uri("https://maven.caffeinemc.net/releases") // or /snapshots
         }
 
-        exclusiveContent {
-            forRepository {
-                ivy {
-                    name = "github"
-                    url = uri("https://github.com/")
+        // GitHub release assets, addressed with an ivy artifact-only layout.
+        // NOTE: this must stay a *filtered* repository, not `exclusiveContent`. An exclusive
+        // rule locks the module to this single repository, which makes the dependency
+        // unresolvable whenever github.com is unreachable (it also hides the mavenLocal()
+        // entry above). `content { includeModuleByRegex(...) }` keeps the same scope while
+        // still allowing other repositories to satisfy the module.
+        ivy {
+            name = "github"
+            url = uri("https://github.com/")
 
-                    patternLayout {
-                        artifact("/[organisation]/[module]/releases/download/[revision]/[module]-[revision]-[classifier].[ext]")
-                    }
-
-                    metadataSources {
-                        artifact()
-                    }
-                }
+            patternLayout {
+                artifact("/[organisation]/[module]/releases/download/[revision]/[module]-[revision]-[classifier].[ext]")
             }
 
-            filter {
+            metadataSources {
+                artifact()
+            }
+
+            content {
                 includeModuleByRegex("[^\\.]+", "nvidium")
             }
         }

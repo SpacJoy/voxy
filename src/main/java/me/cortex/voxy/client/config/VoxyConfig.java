@@ -42,6 +42,22 @@ public class VoxyConfig
     public int cloudDistance = 0;
     public boolean dontUseSodiumBuilderThreads = false;
 
+    /**
+     * How far (in blocks) the chunk bound used to suppress LoD inside the vanilla render distance
+     * is pulled back from the vanilla render distance edge.
+     * <p>
+     * The bound is the far envelope of the AABB of every vanilla section, and the LoD in front of
+     * that envelope is discarded. Because the AABB is a full 16 block section, its far side sits
+     * roughly a section behind the terrain surface it wraps, so the envelope reaches past the point
+     * where the vanilla renderer actually stops drawing and cuts away LoD that nothing else covers
+     * (a ring of void at the vanilla/LoD boundary). Pulling the bound back removes that void, but
+     * pulling it back lets the (coarser) LoD surface poke through the vanilla terrain instead, and
+     * while chunks stream in that seam flickers. In practice leaving the bound at the vanilla edge
+     * (0) looks best once the LoD subdivision threshold keeps the LoD level transitions far enough
+     * out, so raise this only if a ring of void shows up at the vanilla render distance.
+     */
+    public int chunkBoundInset = 0;
+
     public String ssaoMode;
 
     public boolean useEnvironmentalFog = true;

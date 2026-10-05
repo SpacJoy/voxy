@@ -1,0 +1,53 @@
+{
+  "voxy.config.title": "Voxy",
+
+  "voxy.config.general": "通用",
+  "voxy.config.rendering": "渲染",
+
+  "voxy.config.general.enabled": "启用 Voxy",
+  "voxy.config.general.enabled.tooltip": "完全启用或禁用 Voxy",
+
+  "voxy.config.general.serviceThreads": "服务线程数",
+  "voxy.config.general.serviceThreads.tooltip": "服务线程池可使用的线程数量",
+
+  "voxy.config.general.useSodiumBuilder": "使用 Sodium 构建线程",
+  "voxy.config.general.useSodiumBuilder.tooltip": "把 Sodium 的构建线程并入 Voxy 的线程池，可在高渲染距离下快速移动时减少卡顿",
+
+  "voxy.config.general.ingest": "区块摄取",
+  "voxy.config.general.ingest.tooltip": "启用或禁用 Voxy 把新加载的区块转换成 LoD 的能力",
+
+  "voxy.config.general.rendering": "Voxy 渲染",
+  "voxy.config.general.rendering.tooltip": "启用或禁用 Voxy 的渲染",
+
+  "voxy.config.general.subDivisionSize": "细分像素面积阈值",
+  "voxy.config.general.subDivisionSize.tooltip": "屏幕空间包围盒超过该面积（像素²）时细分到更小的 LoD（数值越小画质越高，交界接缝也越细）",
+
+  "voxy.config.general.renderDistance": "渲染距离",
+  "voxy.config.general.renderDistance.tooltip": "Voxy 的渲染距离（单位：区块）",
+
+  "voxy.config.general.environmental_fog": "启用环境迷雾",
+  "voxy.config.general.environmental_fog.tooltip": "启用或禁用 Voxy 的环境迷雾渲染",
+  "voxy.config.general.render_fog": "启用渲染雾",
+  "voxy.config.general.render_fog.tooltip": "启用或禁用 Voxy 渲染环境雾",
+
+  "voxy.config.general.ssao_mode": "SSAO 模式",
+  "voxy.config.general.ssao_mode.tooltip": "屏幕空间环境光遮蔽使用的模式（自动会在尽量降低性能开销的前提下选择最合适的模式）",
+  "voxy.config.general.ssao_mode.auto": "自动",
+  "voxy.config.general.ssao_mode.basic": "基础",
+  "voxy.config.general.ssao_mode.better": "进阶",
+  "voxy.config.general.ssao_mode.best": "最佳",
+
+  "voxy.config.general.adaptCloudDistance": "自适应云距离",
+  "voxy.config.general.adaptCloudDistance.tooltip": "启用或禁用自适应云距离",
+  "voxy.config.general.cloudDistance": "云距离",
+  "voxy.config.general.cloudDistance.tooltip": "云的距离（单位：区块），仅在关闭自适应云距离时生效",
+
+  "voxy.config.general.fogIntensity": "雾浓度",
+  "voxy.config.general.fogIntensity.tooltip": "雾的强度，数值越大雾越浓、能见度越低",
+  "voxy.config.general.fogDensity": "雾密度",
+  "voxy.config.general.fogDensity.tooltip": "雾的密度，数值越大雾越浓",
+  "voxy.config.general.skyFogDistance": "天空雾距离",
+  "voxy.config.general.skyFogDistance.tooltip": "天空雾开始渲染的距离（单位：区块）",
+  "voxy.config.general.chunkBoundInset": "LoD 边界内缩",
+  "voxy.config.general.chunkBoundInset.tooltip": "允许 LoD 在原版渲染距离结束前多早开始（单位：格）。太小会在原版与 LoD 都不绘制的地方留下一圈空洞，太大会让远处地形穿出近处地形"
+}
