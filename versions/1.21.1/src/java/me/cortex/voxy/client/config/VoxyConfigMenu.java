@@ -123,7 +123,14 @@ public class VoxyConfigMenu implements ConfigEntryPoint {
                                                 }
                                             }
                                         }, "voxy:rendering", RENDER_RELOAD)
-                                        .setImpact(OptionImpact.MEDIUM)
+                                        .setImpact(OptionImpact.MEDIUM),
+                                new IntOption(
+                                        "voxy:chunk_bound_inset",
+                                        Component.translatable("voxy.config.general.chunkBoundInset"),
+                                        ()->CFG.chunkBoundInset, v->CFG.chunkBoundInset=v,
+                                        new Range(0, 32, 1))
+                                        .setImpact(OptionImpact.LOW)
+                                        .setPostChangeFlags(RENDER_RELOAD)
                         ), new Group(
                                 new BoolOption(
                                     "voxy:eviromental_fog",
@@ -174,13 +181,6 @@ public class VoxyConfigMenu implements ConfigEntryPoint {
                                         Component.translatable("voxy.config.general.skyFogDistance"),
                                         ()->CFG.skyFogDistance, v->CFG.skyFogDistance=v,
                                         new Range(0, 1024, 1))
-                                        .setImpact(OptionImpact.LOW)
-                                        .setPostChangeFlags(RENDER_RELOAD),
-                                new IntOption(
-                                        "voxy:chunk_bound_inset",
-                                        Component.translatable("voxy.config.general.chunkBoundInset"),
-                                        ()->CFG.chunkBoundInset, v->CFG.chunkBoundInset=v,
-                                        new Range(0, 32, 1))
                                         .setImpact(OptionImpact.LOW)
                                         .setPostChangeFlags(RENDER_RELOAD)
                         )
