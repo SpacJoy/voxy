@@ -420,16 +420,26 @@ public class Mapper {
                 var state = BlockState.CODEC.parse(NbtOps.INSTANCE, bsc);
                 if (state.isError()) {
                     Logger.info("Could not decode blockstate, attempting fixes, error: "+ state.error().get().message());
-                    bsc = (CompoundTag) DataFixers.getDataFixer().update(References.BLOCK_STATE, new Dynamic<>(NbtOps.INSTANCE,bsc),0, SharedConstants.getCurrentVersion().getDataVersion().getVersion()).getValue();
-                    state = BlockState.CODEC.parse(NbtOps.INSTANCE, bsc);
-                    if (state.isError()) {
-                        Logger.error("Could not decode blockstate setting to air. id:" + id + " error: " + state.error().get().message());
-                        return new StateEntry(id, Blocks.AIR.defaultBlockState());
-                    } else {
-                        Logger.info("Fixed blockstate to: " + state.getOrThrow());
-                        forceResave[0] |= true;
-                        return new StateEntry(id, state.getOrThrow());
+                    //The datafixer call can itself fail (the stored mapping does not carry the data version it was
+                    //written with, so the requested update path can be invalid and throw, e.g. when a mod that
+                    //registered the blockstate is no longer present). A failure here must not kill the game, the
+                    //entry is treated as missing and falls through to the air fallback below.
+                    CompoundTag fixed = null;
+                    try {
+                        fixed = (CompoundTag) DataFixers.getDataFixer().update(References.BLOCK_STATE, new Dynamic<>(NbtOps.INSTANCE,bsc),0, SharedConstants.getCurrentVersion().getDataVersion().getVersion()).getValue();
+                    } catch (Exception e) {
+                        Logger.warn("Blockstate datafix failed for id " + id + " (" + e + "), treating the blockstate as removed");
                     }
+                    if (fixed != null) {
+                        state = BlockState.CODEC.parse(NbtOps.INSTANCE, fixed);
+                        if (!state.isError()) {
+                            Logger.info("Fixed blockstate to: " + state.getOrThrow());
+                            forceResave[0] |= true;
+                            return new StateEntry(id, state.getOrThrow());
+                        }
+                    }
+                    Logger.error("Could not decode blockstate setting to air. id:" + id + " error: " + state.error().get().message());
+                    return new StateEntry(id, Blocks.AIR.defaultBlockState());
                 } else {
                     return new StateEntry(id, state.getOrThrow());
                 }
